@@ -1,0 +1,35 @@
+function [frame_matrix] = framing(sound,frame_size,overlap,window)
+
+[signal,sr] = wavread(sound); % to read signal from .wav file
+signal_size = length(signal) % returns the size of the signal
+
+frame_size = frame_size/1000 ;     % convert to ms
+overlap = ceil((overlap/1000) * sr)       % convert to ms
+
+frame_size = frame_size *sr         %  samples per frame
+frames_number = ceil(signal_size/frame_size) % to calculate number of frames
+
+frame_matrix = zeros(frames_number,frame_size); % define a matrix initilized with zeros
+
+frame_start = 1 ;
+frame_end = frame_size ;
+
+for i = 1 : frames_number
+    frame_start;
+    frame_end;
+    frame = signal(frame_start:frame_end);
+    frame_win = frame.*1 ;
+    frame_length = length(frame_win);
+    
+    if(frame_length < frame_size) 
+        frame_win(frame_length+1:frame_size) = 0
+        frame_matrix = [frame_matrix , frame_win]
+    else
+        frame_matrix = [frame_matrix,frame_win]
+    end;
+    
+    frame_start = round(frame_end - overlap) ;
+    frame_end = round(frame_start + frame_size - 1) ;
+end;
+plot(frame_matrix);
+    

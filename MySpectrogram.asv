@@ -1,0 +1,11 @@
+function MySpectrogram= MySpectrogram(sound,frame_size,overlap,window)
+framed_mat = framming_data(sound,frame_size,overlap,window);
+[x y] = size(framed_mat)
+fft_mat = zeros (x,y) ;
+
+
+    fft_mat = fft(framed_mat);
+y = ce
+half_mat = zeros(x,ceil(y/2));
+half_mat(i,:)= fft_mat(x,ceil(y/2));
+half_mat = log(abs(half_mat)+1)
